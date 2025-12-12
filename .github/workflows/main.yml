@@ -1,0 +1,11 @@
+name: Deploy to HF Spaces
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: huggingface/huggingface-action@v1
+      with:
+        hf-token: ${{ secrets.HF_TOKEN }}
+        repository: tthogho1/imagesearchbyclip  # 例: tthogho1/myspace
