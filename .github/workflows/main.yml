@@ -8,6 +8,7 @@ on:
 jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
+    environment: HF_TOKEN
     steps:
       - uses: actions/checkout@v4
         with:
