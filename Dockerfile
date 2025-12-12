@@ -19,7 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app.py .
 COPY embedding.py .
 COPY vector_search.py .
-COPY .env .
+# COPY .env .
 
 # Hugging Face Spacesのデフォルトポート7860を公開
 EXPOSE 7860
