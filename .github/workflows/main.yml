@@ -14,8 +14,11 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      - name: Push to Hugging Face Space
+      - name: Force push to Hugging Face Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git push https://tthogho1:${HF_TOKEN}@huggingface.co/spaces/tthogho1/imagesearchbyclip main
+          git push --force "https://tthogho1:${HF_TOKEN}@huggingface.co/spaces/tthogho1/imagesearchbyclip" main  
+        run: |
+          git push --force "https://tthogho1:${HF_TOKEN}@huggingface.co/spaces/tthogho1/imagesearchbyclip" main        run: |
+          git push --force "https://tthogho1:${HF_TOKEN}@huggingface.co/spaces/tthogho1/imagesearchbyclip" main
