@@ -18,4 +18,5 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          echo "HF_TOKEN length: ${#HF_TOKEN}"
           git push --force "https://tthogho1:${HF_TOKEN}@huggingface.co/spaces/tthogho1/imagesearchbyclip" main  
