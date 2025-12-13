@@ -2,6 +2,7 @@ import os
 from typing import List, Dict, Any
 from fastapi import FastAPI, Form, File, UploadFile
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 from dotenv import load_dotenv
 from vector_search import vector_search
 from embedding import Embedding
@@ -19,22 +20,29 @@ embedding = Embedding()
 IMAGE_SERVER = os.environ.get("IMAGE_SERVER", "https://default-image-server.com/")
 
 
+class SearchWebcamRequest(BaseModel):
+    query: str
+    count: str
+
+
+class SearchWebcamByUrlRequest(BaseModel):
+    imageUrl: str
+    count: str
+
+
 @app.post("/api/searchWebcamFromAtlas")
-async def search_webcam_from_atlas_endpoint(
-    query: str = Form(...), count: str = Form(...)
-):
+async def search_webcam_from_atlas_endpoint(request: SearchWebcamRequest):
     """
     テキストクエリでWebカメラを検索するAPIエンドポイント
 
     Args:
-        query: 検索クエリテキスト
-        count: 取得する結果の数
+        request: query と count を含む SearchWebcamRequest オブジェクト
 
     Returns:
         検索結果のPhotoリスト
     """
     try:
-        query_dict = {"query": query, "count": count}
+        query_dict = {"query": request.query, "count": request.count}
         photos = await search_by_text_from_atlas(query_dict, IMAGE_SERVER)
         return JSONResponse(content=photos)
     except Exception as e:
@@ -65,21 +73,18 @@ async def search_webcam_by_image_endpoint(
 
 
 @app.post("/api/searchWebcamByURL")
-async def search_webcam_by_url_endpoint(
-    imageUrl: str = Form(...), count: str = Form(...)
-):
+async def search_webcam_by_url_endpoint(request: SearchWebcamByUrlRequest):
     """
     画像URLでWebカメラを検索するAPIエンドポイント
 
     Args:
-        imageUrl: 検索する画像のURL
-        count: 取得する結果の数
+        request: imageUrl と count を含む SearchWebcamByUrlRequest オブジェクト
 
     Returns:
         検索結果のPhotoリスト
     """
     try:
-        query_dict = {"imageUrl": imageUrl, "count": count}
+        query_dict = {"imageUrl": request.imageUrl, "count": request.count}
         photos = await search_by_url_from_atlas(query_dict, IMAGE_SERVER)
         return JSONResponse(content=photos)
     except Exception as e:
