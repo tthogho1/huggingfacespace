@@ -22,12 +22,12 @@ IMAGE_SERVER = os.environ.get("IMAGE_SERVER", "https://default-image-server.com/
 
 class SearchWebcamRequest(BaseModel):
     query: str
-    count: str
+    count: int
 
 
 class SearchWebcamByUrlRequest(BaseModel):
     imageUrl: str
-    count: str
+    count: int
 
 
 @app.post("/api/searchWebcamFromAtlas")
